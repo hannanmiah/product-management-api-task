@@ -1,59 +1,165 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Product Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based Product Management System that integrates with the FakeStore API to fetch, store, edit, and manage products.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Fetch from API**: One-click button to fetch products from FakeStore API and store them in the database
+- **Duplicate Prevention**: Automatically avoids importing duplicate products
+- **Product Listing**: Display all products in a paginated table with images, prices, categories, and ratings
+- **Edit Products**: Edit product details including title, price, category, description, and image URL
+- **Delete Products**: Remove products from the database with confirmation
+- **Validation**: Basic form validation on product updates
+- **Responsive UI**: Clean, Bootstrap-based interface
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2 or higher
+- Composer
+- SQLite (included)
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 1. Clone the Repository
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git clone https://github.com/your-username/product-management-api-task.git
+cd product-management-api-task
+```
 
-## Laravel Sponsors
+### 2. Install Dependencies
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer install
+```
 
-### Premium Partners
+### 3. Environment Setup
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Copy the example environment file and generate an application key:
 
-## Contributing
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The project uses SQLite by default. If you want to use a different database, update your `.env` file accordingly.
 
-## Code of Conduct
+### 4. Run Migrations
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Create the database and run the migrations:
 
-## Security Vulnerabilities
+```bash
+touch database/database.sqlite
+php artisan migrate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Start the Development Server
+
+```bash
+php artisan serve
+```
+
+The application will be available at `http://localhost:8000`
+
+## Usage
+
+### Fetching Products
+
+1. Visit `http://localhost:8000`
+2. Click the **"Fetch from API"** button at the top
+3. Products will be fetched from FakeStore API and stored in the database
+4. You'll see a summary of how many products were imported and how many duplicates were skipped
+
+### Managing Products
+
+- **View Products**: The main page displays all products in a table with pagination
+- **Edit Product**: Click the **"Edit"** button next to any product to modify its details
+- **Delete Product**: Click the **"Delete"** button to remove a product (with confirmation)
+
+## Testing
+
+The project includes comprehensive Pest tests covering all CRUD operations.
+
+Run all tests:
+
+```bash
+php artisan test
+```
+
+Run only product tests:
+
+```bash
+php artisan test --filter=ProductTest
+```
+
+## Project Structure
+
+```
+app/
+├── Http/
+│   └── Controllers/
+│       └── ProductController.php    # Handles all product operations
+├── Models/
+│   └── Product.php                  # Product Eloquent model
+database/
+├── factories/
+│   └── ProductFactory.php           # Factory for testing
+└── migrations/
+    └── create_products_table.php    # Products table schema
+resources/
+└── views/
+    ├── layouts/
+    │   └── app.blade.php            # Main layout
+    └── products/
+        ├── index.blade.php          # Products list view
+        └── edit.blade.php           # Edit product view
+routes/
+└── web.php                          # Route definitions
+tests/
+└── Feature/
+    └── ProductTest.php              # Feature tests
+```
+
+## API Integration
+
+The application integrates with the [FakeStore API](https://fakestoreapi.com/) to fetch product data. Each product includes:
+
+- Title
+- Price
+- Description
+- Category
+- Image URL
+- Rating (rate and count)
+
+## Database Schema
+
+The `products` table includes the following columns:
+
+- `id` (Primary Key)
+- `title`
+- `price`
+- `description` (nullable)
+- `category`
+- `image` (nullable)
+- `rating_rate` (nullable)
+- `rating_count` (nullable)
+- `api_product_id` (unique, nullable) - Used to prevent duplicates
+- `created_at`
+- `updated_at`
+
+## Technologies Used
+
+- **Laravel 12** - Web application framework
+- **PHP 8.2+** - Programming language
+- **SQLite** - Database
+- **Bootstrap 5** - CSS framework
+- **Pest** - Testing framework
+- **Laravel HTTP Client** - For API requests
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Support
+
+For issues or questions, please open an issue on the GitHub repository.
