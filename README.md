@@ -23,7 +23,7 @@ A Laravel-based Product Management System that integrates with the FakeStore API
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/product-management-api-task.git
+git clone https://github.com/hannanmiah/product-management-api-task.git
 cd product-management-api-task
 ```
 
